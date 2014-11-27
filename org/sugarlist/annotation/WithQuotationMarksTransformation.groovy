@@ -13,7 +13,6 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
 
 @GroovyASTTransformation(phase = CompilePhase.INITIALIZATION)
 public class WithQuotationMarksTransformation implements ASTTransformation {
-    def printProp = new org.sugarlist.utils.PropertiesFormater()
 
     private boolean isNodesOk(ASTNode[] nodes) {
         if (!nodes) return false;
@@ -35,18 +34,11 @@ public class WithQuotationMarksTransformation implements ASTTransformation {
 
     @Override
     void visit(ASTNode[] nodes, SourceUnit source) {
-        println "nodes: ${nodes.properties}"
-
-        return
         if (!isNodesOk(nodes)) return;
 
         DeclarationExpression node1 = nodes[1]
         String variableName = node1.variableExpression.name
         String lst = node1?.rightExpression?.text
-        println " *** variableName: ${variableName}"
-        println " *** variableValu: ${lst}"
-        println "1......................................."
-
         ExpressionStatement vexp = createStatements().statements[0]
         node1?.rightExpression = vexp.expression
     }
